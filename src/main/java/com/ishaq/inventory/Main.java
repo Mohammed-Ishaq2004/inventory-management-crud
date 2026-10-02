@@ -23,6 +23,13 @@ public class Main {
             System.out.println("7. Exit");
 
             System.out.print("Enter your choice: ");
+
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine(); // Discard the invalid input
+                continue;           // Restart the menu loop
+            }
+
             int choice = scanner.nextInt();
 
             switch (choice) {
@@ -41,9 +48,23 @@ public class Main {
                     String category = scanner.nextLine();
 
                     System.out.print("Enter price: ");
+
+                    if (!scanner.hasNextDouble()) {
+                        System.out.println("Invalid price! Please enter a number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     double price = scanner.nextDouble();
 
                     System.out.print("Enter quantity: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid quantity! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int quantity = scanner.nextInt();
 
                     Product product = new Product(
@@ -76,6 +97,13 @@ public class Main {
 
                 case 3:{
                     System.out.print("Enter product ID: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid ID! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int id = scanner.nextInt();
 
                     Product product = productService.getProductById(id);
@@ -91,6 +119,13 @@ public class Main {
                 case 4: {
 
                     System.out.print("Enter product ID to update: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid ID! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int id = scanner.nextInt();
                     scanner.nextLine();
 
@@ -111,9 +146,23 @@ public class Main {
                     String category = scanner.nextLine();
 
                     System.out.print("Enter new price: ");
+
+                    if (!scanner.hasNextDouble()) {
+                        System.out.println("Invalid price! Please enter a number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     double price = scanner.nextDouble();
 
                     System.out.print("Enter new quantity: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid quantity! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int quantity = scanner.nextInt();
 
                     Product product = new Product(
@@ -132,9 +181,23 @@ public class Main {
                 case 5: {
 
                     System.out.print("Enter product ID: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid ID! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int productId = scanner.nextInt();
 
                     System.out.print("Enter new quantity: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid quantity! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int newQuantity = scanner.nextInt();
 
                     productService.updateStock(productId, newQuantity);
@@ -145,9 +208,33 @@ public class Main {
                 case 6: {
 
                     System.out.print("Enter product ID to delete: ");
-                    int productId = scanner.nextInt();
 
-                    productService.deleteProduct(productId);
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid ID! Please enter a whole number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
+                    int productId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Product product = productService.getProductById(productId);
+
+                    if (product == null) {
+                        System.out.println("Product not found.");
+                        break;
+                    }
+
+                    System.out.println("Product found: " + product);
+
+                    System.out.print("Are you sure you want to delete this product? (yes/no): ");
+                    String confirmation = scanner.nextLine();
+
+                    if (confirmation.equalsIgnoreCase("yes")) {
+                        productService.deleteProduct(productId);
+                    } else {
+                        System.out.println("Delete cancelled.");
+                    }
 
                     break;
                 }
